@@ -5,10 +5,16 @@
         "desc": "This is my digital illustration work, I entered the A Bottle of Indonesian Children's Work competition (Teh Sosro)",
         "date": "2025-03-18"
     },
-        {
+    {
         "img": "https://anasbex-dev.github.io/aka-me/akadata/images/webcjs.webp",
         "title": "Very skilled at creating Web Components",
         "desc": "I really enjoy creating web components using JavaScript, and I often try new things using JavaScript.",
         "date": "Without limit"
+    },
+     {
+        "img": "https://anasbex-dev.github.io/aka-me/akadata/images/photog.webp",
+        "title": "I am also very fond of photography",
+        "desc": "Whatever I come across, and I feel it is suitable to be photographed, then I will take a photo of it immediately.",
+        "date": "2021-05-21"
     }
 ]
