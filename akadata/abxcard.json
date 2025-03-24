@@ -1,6 +1,6 @@
 [
     {
-        "img": "images/ilust1.webp",
+        "img": "./images/ilust1.webp",
         "title": "Digital Illustration Competition",
         "desc": "This is my digital illustration work, I entered the A Bottle of Indonesian Children's Work competition (Teh Sosro)",
         "date": "2025-03-18"
