@@ -1,7 +1,13 @@
 [
+   {
+        "img": "https://anasbex-dev.github.io/aka-me/akadata/images/kittle.webp",
+        "title": "Kittle Web Components",
+        "desc": "Currently developing web components from scratch, this is my first experience creating a Web Components Style Kit Css.",
+        "date": "2025-04-18"
+    },
     {
         "img": "https://anasbex-dev.github.io/aka-me/akadata/images/ilust1.webp",
-        "title": "Digital Illustration Competition",
+        "title": "Digital Illustration",
         "desc": "This is my digital illustration work, I entered the A Bottle of Indonesian Children's Work competition (Teh Sosro)",
         "date": "2025-03-18"
     },
