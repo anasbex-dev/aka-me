@@ -1,70 +1,32 @@
-import { createController } from "./controller.js";
+import Controller from "./controller.js";
+
+const controller = new Controller();
 
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+controller.setAnalogConfig(150, 450, 120, 50);
+controller.setAnalogImages("analog_base.png", "analog_stick.png");
 
-const player = { x: 100, y: 100, width: 32, height: 32 };
-const range = 160;
-const npc1 = new AiNpc2D({
-  x: 400,
-  y: 200,
-  speed: 0.5,
-  targetPlayer: player,
-  chaseRange: 160,
-  stopDistance: 100,
-  escapeRange: 100,
-  waypoints: [{ x: 300, y: 300 }, { x: 400, y: 100 }]
-});
+function update() {
+    controller.updateGamepad();
+    let analog = controller.getAnalog();
 
-const npc = new AiNpc2D({
-  x: 200,
-  y: 200,
-  speed: 0.5,
-  targetPlayer: player,
-  chaseRange: range,
-  stopDistance: 50,
-  escapeRange: 100,
-  waypoints: [{ x: 300, y: 300 }, { x: 400, y: 100 }]
-});
+    let moveX = analog.x;
+    let moveY = analog.y;
 
-const npcs = [npc]; // ✅ Memastikan NPC dalam array
-
-function gameLoop() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  
-  npc.update(npcs); // ✅ Pastikan NPC menerima array
-  npc.draw(ctx);
-  
-  ctx.fillStyle = "red";
-  ctx.fillRect(player.x, player.y, player.width, player.height);
-  
-  requestAnimationFrame(gameLoop);
+    console.log("Analog X:", moveX, "Analog Y:", moveY);
 }
 
-const controller = createController("touch");
+function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    controller.drawAnalog(ctx);
+}
 
-controller.on("input", (data) => {
-  console.log(data); // Debugging event yang diterima
-  
-  if (data.type === "swipe") {
-    if (data.direction === "up") npc.moveToTarget({ x: npc.x, y: npc.y - 10 });
-    if (data.direction === "down") npc.moveToTarget({ x: npc.x, y: npc.y + 10 });
-    if (data.direction === "left") npc.moveToTarget({ x: npc.x - 10, y: npc.y });
-    if (data.direction === "right") npc.moveToTarget({ x: npc.x + 10, y: npc.y });
-  }
-  
-  if (data.type === "tap") {
-    console.log("NPC Interact!");
-  }
-  
-  if (data.type === "hold") {
-    console.log("NPC Running!");
-    npc.moveToTarget({ x: npc.x, y: npc.y - 450 });
-    const range = 50;
-  }
-});
+function gameLoop() {
+    update();
+    draw();
+    requestAnimationFrame(gameLoop);
+}
 
 gameLoop();

@@ -3,80 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Slot Game dengan Canvas API</title>
+    <title>Game dengan Analog & Attack Button</title>
     <style>
-        body {
-            text-align: center;
-            font-family: Arial, sans-serif;
-        }
-        canvas {
-            background: #ddd;
-            display: block;
-            margin: auto;
-        }
-        button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 18px;
-            cursor: pointer;
-        }
+        body { font-family: Arial, sans-serif; text-align: center; background: #222; color: white; }
+        canvas { background: black; display: block; margin: 10px auto; touch-action: none; }
+        #status { margin-top: 10px; }
     </style>
 </head>
 <body>
+    <h1>Game dengan Analog & Attack Button</h1>
+    <canvas id="gameCanvas" width="400" height="400"></canvas>
+    <div id="status">Arah: (0, 0) | Attack: Tidak</div>
 
-    <h1>Simple Slot Game</h1>
-    <canvas id="slotCanvas" width="300" height="150"></canvas>
-    <br>
-    <button id="spinButton">Spin</button>
+    <script type="module">
+        import Controller from "./controller.js";
 
-    <script>
-        const canvas = document.getElementById("slotCanvas");
-        const ctx = canvas.getContext("2d");
-        const spinButton = document.getElementById("spinButton");
+const controller = new Controller();
 
-        // Simbol slot (bisa diganti dengan gambar nanti)
-        const symbols = ["🍒", "🍋", "🍉", "⭐", "🔔"];
-        let reels = ["🍒", "🍋", "🍉"]; // Default sebelum spin
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
 
-        function drawSlot() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.font = "50px Arial";
-            ctx.textAlign = "center";
-            ctx.fillStyle = "black";
+controller.setAnalogArea(150, 300, 60);
 
-            for (let i = 0; i < 3; i++) {
-                ctx.fillText(reels[i], (i + 1) * 100 - 50, 90);
-            }
-        }
+function update() {
+    controller.updateGamepad();
+    let analog = controller.getAnalog();
 
-        function spinSlot() {
-            let spins = 20; // Jumlah animasi putaran
-            let interval = setInterval(() => {
-                for (let i = 0; i < 3; i++) {
-                    reels[i] = symbols[Math.floor(Math.random() * symbols.length)];
-                }
-                drawSlot();
-                spins--;
+    console.log("Analog X:", analog.x, "Analog Y:", analog.y);
+}
 
-                if (spins <= 0) {
-                    clearInterval(interval);
-                    checkWin();
-                }
-            }, 100);
-        }
+function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    controller.drawAnalog(ctx);
+}
 
-        function checkWin() {
-            if (reels[0] === reels[1] && reels[1] === reels[2]) {
-                alert("🎉 JACKPOT! Kamu menang!");
-            } else {
-                alert("😢 Coba lagi!");
-            }
-        }
+function gameLoop() {
+    update();
+    draw();
+    requestAnimationFrame(gameLoop);
+}
 
-        spinButton.addEventListener("click", spinSlot);
-        drawSlot(); // Gambar awal
-
+gameLoop();
     </script>
-
 </body>
 </html>
